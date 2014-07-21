@@ -1,0 +1,24 @@
+﻿@model IPagedList<MvcProject.Models.CrcModel>
+
+@{
+    ViewBag.Title = "CrcList";
+}
+
+<h2>Crc list</h2>
+
+<div id="radioButtons" class="btn-group" data-toggle="buttons">
+    <label id="All" class="btn btn-default active">
+        <input type="radio" name="filter">
+        All
+    </label>
+    <label id="Correct" class="btn btn-default">
+        <input type="radio" name="filter">
+        Correct
+    </label>
+    <label id="Wrong" class="btn btn-default">
+        <input type="radio" name="filter">
+        Wrong
+    </label>
+</div>
+
+@Html.Partial("_crcFilterList", Model)

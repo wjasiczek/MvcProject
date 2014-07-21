@@ -1,0 +1,61 @@
+﻿@model IPagedList<MvcProject.Models.CrcModel>
+
+
+<div id="testList">
+    <div class="pagedList" data-mvcproj-target="#testList">
+        @Html.PagedListPager(Model, pageNumber => Url.Action("CrcList", new { pageNumber = pageNumber }),
+    PagedListRenderOptions.MinimalWithItemCountText);
+    </div>
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.First().binaryValue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().generator)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().remainder)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().signal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().correctness)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.binaryValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.generator)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.remainder)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.signal)
+                </td>
+                <td>
+                    @if (item.correctness != null)
+                    {
+                        @Html.DisplayFor(modelItem => item.correctness)
+                    }
+                    else
+                    {
+                        <div class="Checks">
+                            @Html.ActionLink("Check", "GetCorrectness", "Crc", new { signal = item.signal, remainder = item.remainder, id = item.ID }, new { id = item.ID })
+                        </div>
+                    }
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

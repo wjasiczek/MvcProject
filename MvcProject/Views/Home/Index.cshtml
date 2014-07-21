@@ -1,0 +1,24 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>MVC Project</h1>
+    <p class="lead">Mvc project including database interaction using Entity Framework, JavaScript, Ajax, jQuery, Bootstrap and FluentValidation</p>
+
+
+</div>
+
+<div class="row">
+    <div class="col-lg-8 col-lg-offset-2">
+        <span style="font-size:large">
+            Application allows to test strings of binary values with given generator. If user is logged in all his tests are stored in database (without duplicates).
+            every user can display his own tests as a paged list with filters. User can add several tests and check their correctness from list page. Actions on list page
+            are called using AJAX. For users managing mvc template authentication was utilized. Database is generated with code first Entity Framework. Database operations
+            are written with LINQ queries. Application also allows to download files from App_Data/FilesToDownload folder. xUnit.net and Moq was used for unit testing.
+        </span><br /><br />
+        <p>Testing functionality:</p>
+        <p>Login: user1@gmail.com Password: pass</p>
+        <p>Login: user2@gmail.com Password: pass</p>
+    </div>
+</div>

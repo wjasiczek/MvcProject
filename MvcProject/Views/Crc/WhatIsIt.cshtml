@@ -1,0 +1,72 @@
+﻿@{
+    ViewBag.Title = "WhatIsIt";
+}
+
+<h2>What Is It</h2>
+
+<p><b>Source:</b> <a href="http://en.wikipedia.org/wiki/Cyclic_redundancy_check">http://en.wikipedia.org/wiki/Cyclic_redundancy_check</a></p>
+
+<p>
+    A cyclic redundancy check (CRC) is an error-detecting code commonly used in digital networks and storage devices to detect accidental changes to raw data.
+    Blocks of data entering these systems get a short check value attached, based on the remainder of a polynomial division of their contents; on retrieval
+    the calculation is repeated, and corrective action can be taken against presumed data corruption if the check values do not match.
+</p>
+<p>
+    CRCs are so called because the check (data verification) value is a redundancy (it expands the message without adding information) and the algorithm is
+    based on cyclic codes. CRCs are popular because they are simple to implement in binary hardware, easy to analyze mathematically, and particularly good at
+    detecting common errors caused by noise in transmission channels. Because the check value has a fixed length, the function that generates it is occasionally
+    used as a hash function.
+</p>
+<p>To compute an <i>n</i>-bit binary CRC, line the bits representing the input in a row, and position the (<i>n</i>&#160;+&#160;1)-bit pattern representing the CRC's divisor (called a polynomial) underneath the left-hand end of the row.</p>
+<p>In this example, we shall encode 14 bits of message with a 3-bit CRC, with a polynomial x³+x+1. The polynomial is written in binary as the coefficients; a 3rd order polynomial has 4 coefficients (1x³+0x²+1x+1). In this case, the coefficients are 1,0, 1 and 1. The result of the calculation is 3 bits long.</p>
+<p>Start with the message to be encoded:</p>
+<pre>
+11010011101100
+</pre>
+<p>This is first padded with zeroes corresponding to the bit length <i>n</i> of the CRC. Here is the first calculation for computing a 3-bit CRC:</p>
+<pre>
+11010011101100 000 &lt;--- input right padded by 3 bits
+1011               &lt;--- divisor (4 bits) = x³+x+1
+------------------
+01100011101100 000 &lt;--- result
+</pre>
+<p>The algorithm acts on the bits directly above the divisor in each step. The result for that iteration is the bitwise XOR of the polynomial divisor with the bits above it. The bits not above the divisor are simply copied directly below for that step. The divisor is then shifted one bit to the right, and the process is repeated until the divisor reaches the right-hand end of the input row. Here is the entire calculation:</p>
+<pre>
+11010011101100 000 &lt;--- input right padded by 3 bits
+1011               &lt;--- divisor
+01100011101100 000 &lt;--- result (note the first four bits are the XOR with the divisor beneath, the rest of the bits are unchanged)
+ 1011              &lt;--- divisor ...
+00111011101100 000
+  1011
+00010111101100 000
+   1011
+00000001101100 000 &lt;--- note that the divisor moves over to align with the next 1 in the dividend (since quotient for that step was zero)
+       1011             (in other words, it doesn't necessarily move one bit per iteration)
+00000000110100 000
+        1011
+00000000011000 000
+         1011
+00000000001110 000
+          1011
+00000000000101 000 
+           101 1
+-----------------
+00000000000000 100 &lt;--- remainder (3 bits).  Division algorithm stops here as quotient is equal to zero.
+</pre>
+<p>Since the leftmost divisor bit zeroed every input bit it touched, when this process ends the only bits in the input row that can be nonzero are the n bits at the right-hand end of the row. These <i>n</i> bits are the remainder of the division step, and will also be the value of the CRC function (unless the chosen CRC specification calls for some postprocessing).</p>
+<p>The validity of a received message can easily be verified by performing the above calculation again, this time with the check value added instead of zeroes. The remainder should equal zero if there are no detectable errors.</p>
+<pre>
+11010011101100 100 &lt;--- input with check value
+1011               &lt;--- divisor
+01100011101100 100 &lt;--- result
+ 1011              &lt;--- divisor ...
+00111011101100 100
+......
+  
+00000000001110 100
+          1011
+00000000000101 100 
+           101 1
+------------------
+                 0 &lt;--- remainder
+</pre>
