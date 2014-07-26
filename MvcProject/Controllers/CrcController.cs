@@ -124,6 +124,8 @@ namespace MvcProject.Controllers
             return View(crcModels.ToPagedList(pageNumber, 5));
         }
 
+
+
         public bool CheckCorrectness(string remainder)
         {
             var isCorrect = true;

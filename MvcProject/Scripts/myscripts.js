@@ -36,7 +36,6 @@
     function CheckCorrectness() {
         if (!form.valid() || formSignal.val() === "")
         {
-            console.log("hehe");
             var target = $("#submitResult");
             target.html("<b>Submit valid values first!</b>");
             target.stop(true, true);
@@ -111,7 +110,7 @@
 
         var options = {
             url: $a.attr("href") + "&filter=" + activeId,
-            type: "GET",
+            type: "GET"
         };
 
         $.ajax(options).done(function (data) {
@@ -131,6 +130,8 @@
     }
 
 
+
+
     var previousRadioButton = "All";
 
     $("#buttonRemainder").click(PrintRemainder);
@@ -138,8 +139,9 @@
     $("#buttonCorrectness").click(CheckCorrectness);
     $("form #crcModel_binaryValue").on("input", InputChange);
     $("form #crcModel_generator").on("input", InputChange);
-    $(".Checks a").click(CheckListItem);
+    $(".body-content").on("click", ".Checks a", CheckListItem);
     $("#radioButtons label").click(AddFilter);
     $(".body-content").on("click", ".pagedList a", GetPage);
     $("#downloadLink").click(DownloadFile);
+    $("button[name=Delete]").on("click", DeleteCrc);
 });
