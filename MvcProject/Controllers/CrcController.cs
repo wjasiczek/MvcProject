@@ -34,15 +34,18 @@ namespace MvcProject.Controllers
 
                 if (User.Identity.IsAuthenticated)
                 {
+                    var currentUser = appDb.Users.Find(User.Identity.GetUserId());
+
                     var uniqueRecord = (from record in appDb.CrcModels
                                         where record.binaryValue == model.crcModel.binaryValue &&
-                                       record.generator == model.crcModel.generator
+                                       record.generator == model.crcModel.generator &&
+                                       record.user.Id == currentUser.Id
                                         select record).ToList();
 
                     if (uniqueRecord.Count == 0)
                     {
-                        var currentUser = appDb.Users.Find(User.Identity.GetUserId());
                         model.crcModel.user = currentUser;
+
                         appDb.CrcModels.Add(model.crcModel);
                         appDb.SaveChanges();
                         model.result = "Data loaded!";
@@ -56,7 +59,7 @@ namespace MvcProject.Controllers
                 {
                     model.result = "Data loaded!";
                 }
-            }            
+            }
 
             return View("Index", model);
         }
@@ -69,9 +72,12 @@ namespace MvcProject.Controllers
 
             if (User.Identity.IsAuthenticated)
             {
+                var currentUser = appDb.Users.Find(User.Identity.GetUserId());
+
                 var query = (from record in appDb.CrcModels
                              where record.remainder == remainder &&
-                             record.signal == signal
+                             record.signal == signal &&
+                             record.user.Id == currentUser.Id
                              select record).First();
 
                 query.correctness = message;
@@ -177,7 +183,7 @@ namespace MvcProject.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            if(disposing && appDb != null)
+            if (disposing && appDb != null)
             {
                 appDb.Dispose();
                 appDb = null;

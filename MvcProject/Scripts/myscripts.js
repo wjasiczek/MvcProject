@@ -143,5 +143,4 @@
     $("#radioButtons label").click(AddFilter);
     $(".body-content").on("click", ".pagedList a", GetPage);
     $("#downloadLink").click(DownloadFile);
-    $("button[name=Delete]").on("click", DeleteCrc);
 });

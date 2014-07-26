@@ -4,7 +4,7 @@
 <div id="testList">
     <div class="pagedList" data-mvcproj-target="#testList">
         @Html.PagedListPager(Model, pageNumber => Url.Action("CrcList", new { pageNumber = pageNumber }),
-    PagedListRenderOptions.MinimalWithItemCountText);
+    PagedListRenderOptions.MinimalWithItemCountText)
     </div>
 
     <table class="table">
